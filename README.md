@@ -1,24 +1,24 @@
-● Các bước thiết lập dự án:
-  ● Cấu hình chung
-      ● Tạo dự án product-management
-      ● Khởi tạo NPM: npm init
-      ● Cài đặt Express: npm i express
-      ● Cài đặt Nodemon: npm i --save-dev nodemon
-      ● Sửa file package.json: "start": "nodemon --inspect index.js"
-      ● Tạo file index.js trong thư mục gốc
+<p> ● Các bước thiết lập dự án: </p>
+  <p> ● Cấu hình chung </p>
+      <p> ● Tạo dự án product-management </p>
+      <p> ● Khởi tạo NPM: npm init </p>
+      <p> ● Cài đặt Express: npm i express </p>
+      <p> ● Cài đặt Nodemon: npm i --save-dev nodemon </p>
+      <p> ● Sửa file package.json: "start": "nodemon --inspect index.js" </p>
+      <p> ● Tạo file index.js trong thư mục gốc </p>
 
-● Cài đặt PUG
-● Tạo views
-● Cấu hình folder routes
-● Cấu hình folder controllers
-● Cấu hình .env
-● Cấu trúc lại folder PUG
+<p> ● Cài đặt PUG </p>
+<p> ● Tạo views </p>
+<p> ● Cấu hình folder routes </p>
+<p> ● Cấu hình folder controllers </p>
+<p> ● Cấu hình .env </p>
+<p> ● Cấu trúc lại folder PUG </p>
 
-● Nhúng Bootstrap 4
-● Nhúng file tĩnh
-● Sửa layout
+<p> ● Nhúng Bootstrap 4 </p>
+<p> ● Nhúng file tĩnh </p>
+<p> ● Sửa layout </p>
 
-● Tạo database: product-management
-● Tạo collection: products
-● Insert Data (Gửi trong lúc học)
-● Cài đặt Mongoose
+<p> ● Tạo database: product-management </p>
+<p> ● Tạo collection: products </p>
+<p> ● Insert Data (Gửi trong lúc học) </p>
+<p> ● Cài đặt Mongoose </p>
