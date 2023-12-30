@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash')
+const pug = require('pug');
 require("dotenv").config();
 
 // ------ Connect mongoose ---------------
