@@ -115,7 +115,7 @@ if (formChangeMulti) {
                 return;
             }
         }
-        console.log(typeChange)
+
 
         if (inputsChecked.length > 0) {
             let ids = [];
@@ -123,7 +123,14 @@ if (formChangeMulti) {
 
             inputsChecked.forEach(input => {
                 const id = input.value;
-                ids.push(id)
+
+                if (typeChange == "change-position") {
+                    const position = input.closest("tr").querySelector("input[name='position']").value;
+                    ids.push(`${id}-${position}`)
+                } else {
+                    ids.push(id)
+                }
+
             });
 
             inputIds.value = ids.join(", ")
@@ -135,3 +142,17 @@ if (formChangeMulti) {
     });
 }
 // End form change Multi
+
+
+
+// Show Alert
+const showAlert = document.querySelector("[show-alert]")
+if (showAlert) {
+    const time = parseInt(showAlert.getAttribute("date-time"))
+    console.log("🚀 ~ file: script.js:152 ~ time:", time)
+
+    setTimeout(() => {
+        showAlert.classList.add("alert-hidden");
+    }, time);
+}
+// End Show Alert

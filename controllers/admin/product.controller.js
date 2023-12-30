@@ -5,7 +5,7 @@ const paginationHelper = require("../../helpers/pagination.js")
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
-  console.log(req.query.status)
+  // console.log(req.query.status)
 
   // Phần bộ lọc trạng thái status
   const filterStatus = filterStatusHelper(req.query);
@@ -48,7 +48,10 @@ module.exports.index = async (req, res) => {
 
 
 
-  const products = await Product.find(find).limit(objectPanigation.limitItems).skip(objectPanigation.skip);
+  const products = await Product.find(find)
+    .sort({ position: "asc" })
+    .limit(objectPanigation.limitItems)
+    .skip(objectPanigation.skip);
   // console.log(products)
 
 
@@ -69,6 +72,9 @@ module.exports.changeStatus = async (req, res) => {
   const id = req.params.id
 
   await Product.updateOne({ _id: id }, { status: status });
+
+  req.flash("success", "Cập nhật trạng thái thành công !")
+
   res.redirect("back")
 }
 
@@ -86,6 +92,14 @@ module.exports.changeMulti = async (req, res) => {
       await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
     case "delete-all":
       await Product.updateMany({ _id: { $in: ids } }, { deleted: true, deletedAt: new Date() });
+      break;
+    case "change-position":
+      for (const item of ids) {
+        let [id, position] = item.split("-");
+        position = parseInt(position);
+
+        await Product.updateMany({ _id: id }, { position: position });
+      }
       break;
 
     default:

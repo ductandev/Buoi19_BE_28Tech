@@ -1,6 +1,9 @@
 const express = require("express");
 const methodOverride = require('method-override')
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('express-flash')
 require("dotenv").config();
 
 // ------ Connect mongoose ---------------
@@ -22,6 +25,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.set("views", "./views");
 app.set("view engines", "pug");
+
+// FLASH
+app.use(cookieParser('keyboard cat'));
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
+// End FLASH
 
 // App Locals Variables (dùng sửa biến nếu đổi enponit /admin/) => cách làm làm cho biến prefixAdmin tồn tại được trong tất cả các file pug để lấy sử dụng nó
 app.locals.prefixAdmin = systemConfig.prefixAdmin;

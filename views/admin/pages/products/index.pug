@@ -4,7 +4,16 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 
-block main 
+block main
+  - if (messages.success)
+    .message.info
+    div(
+      class="alert alert-success"
+      show-alert
+      date-time="5000"
+    ) #{messages.success}
+
+
   h1 Trang danh sách sản phẩm
 
   .card.mb-3 
@@ -56,6 +65,14 @@ block main
                   )
                 td #{item.title}
                 td #{item.price}$
+                td 
+                  input(
+                    type="number"
+                    value=item.position
+                    style="width: 60px"
+                    min="1"
+                    name="position"
+                    )
                 td 
                   if(item.status == "active")
                     a(
