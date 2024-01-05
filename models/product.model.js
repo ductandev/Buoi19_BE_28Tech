@@ -1,8 +1,11 @@
 const mongoose = require("mongoose")
+const slug = require('mongoose-slug-updater');
+
+mongoose.plugin(slug)
 
 const productSchema = new mongoose.Schema(
   {
-    title: String,
+    title: String,        // Sản phẩm 1
     description: String,
     price: Number,
     discountPercentage: Number,
@@ -10,9 +13,19 @@ const productSchema = new mongoose.Schema(
     thumbnail: String,
     status: String,
     position: Number,
-    deleted: Boolean,
+    slug: {
+      type: String,
+      slug: "title",       // Sản phẩm 1
+      unique: true
+    },
+    deleted: {
+      type: Boolean,
+      default: false      // Mặc định trường  "deleted: false" để hiện sản phẩm
+    },
     deletedAt: Date
-  }
+  }, {
+  timestamps: true
+}
 );
 
 // Tham số thứ 3: products là tên của connection trong database

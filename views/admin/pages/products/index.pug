@@ -23,8 +23,15 @@ block main
 
   .card.mb-3 
     .card-header Danh sách
-      .card-body 
-        +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+      .card-body
+        .row.mb-3
+          .col-8
+            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+          .col-4
+            a(
+              href=`${prefixAdmin}/products/create`
+              class="btn btn-outline-success"
+            ) + Thêm mới
 
         table(
           class="table table-hover table-sm "
@@ -39,7 +46,8 @@ block main
               th Tiêu đề
               th Giá
               th Trạng thái 
-              th Hành động 
+              th Hành động
+              th 
 
           tbody 
             each item, index in products
@@ -84,7 +92,10 @@ block main
                       button-change-status 
                       class="badge bg-danger text-decoration-none") Dừng hoạt động
                 td 
-                  button(class="btn btn-warning btn-sm") Sửa
+                  a(
+                    href=`${prefixAdmin}/products/edit/${item.id}`
+                    class="btn btn-warning btn-sm"
+                    ) Sửa
                   button(
                     class="btn btn-danger btn-sm ms-1"
                     button-delete

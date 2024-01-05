@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash')
 const pug = require('pug');
+const multer = require('multer')
 require("dotenv").config();
 
 // ------ Connect mongoose ---------------

@@ -1,4 +1,5 @@
 const Product = require("../../models/product.model.js")
+const systemConfig = require("../../config/system.js")
 
 const filterStatusHelper = require("../../helpers/filterStatus.js")
 const paginationHelper = require("../../helpers/pagination.js")
@@ -49,7 +50,8 @@ module.exports.index = async (req, res) => {
 
 
   const products = await Product.find(find)
-    .sort({ position: "asc" })
+    // .sort({ position: "asc" })
+    .sort({ position: "desc" })
     .limit(objectPanigation.limitItems)
     .skip(objectPanigation.skip);
   // console.log(products)
@@ -123,4 +125,64 @@ module.exports.deleteItem = async (req, res) => {
   req.flash("success", `Xóa thành công 1 sản phẩm !`)
 
   res.redirect("back");
+}
+
+
+// [GET] /admin/products/create
+module.exports.create = async (req, res) => {
+  res.render("admin/pages/products/create.pug", {
+    pageTitle: "Thêm mới sản phẩm"
+  });
+};
+
+// [POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+  if (req.body.position == "") {
+    const countProduct = await Product.countDocuments();
+    req.body.position = +countProduct + 1
+  } else {
+    req.body.position = parseInt(req.body.position)
+  }
+
+  if (req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
+  const product = await Product.create(req.body)
+
+  res.redirect(`${systemConfig.prefixAdmin}/products`);
+};
+
+// [GET] /admin/products/edit/:id
+module.exports.edit = async (req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    };
+
+    const product = await Product.findOne(find)
+
+    console.log(product)
+
+    res.render("admin/pages/products/edit.pug", {
+      pageTitle: "Edit sản phẩm",
+      product: product
+    });
+  } catch (error) {
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+  }
+}
+
+// [PATCH] /admin/products/edit/:id
+module.exports.editPatch = async (req, res) => {
+  try {
+    if (req.file) {
+      req.body.thumbnail = `/uploads/${req.file.filename}`
+    }
+    const product = await Product.updateOne({ _id: req.params.id }, req.body)
+    req.flash("success", `Cập nhật thành công !`)
+  } catch (error) {
+    req.flash("error", `Cập nhật thất bại !`)
+  }
+  res.redirect(`back`);
 }
