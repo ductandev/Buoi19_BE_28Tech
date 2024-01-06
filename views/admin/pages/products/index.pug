@@ -93,8 +93,12 @@ block main
                       class="badge bg-danger text-decoration-none") Dừng hoạt động
                 td 
                   a(
+                    href=`${prefixAdmin}/products/detail/${item.id}`
+                    class="btn btn-secondary btn-sm"
+                    ) Chi tiết
+                  a(
                     href=`${prefixAdmin}/products/edit/${item.id}`
-                    class="btn btn-warning btn-sm"
+                    class="btn btn-warning btn-sm ms-1"
                     ) Sửa
                   button(
                     class="btn btn-danger btn-sm ms-1"
