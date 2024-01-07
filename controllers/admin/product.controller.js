@@ -67,7 +67,6 @@ module.exports.index = async (req, res) => {
 }
 
 
-
 // [PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
@@ -144,9 +143,9 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position)
   }
 
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`
-  }
+  // if (req.file) {
+  //   req.body.thumbnail = `/uploads/${req.file.filename}`
+  // }
   const product = await Product.create(req.body)
 
   res.redirect(`${systemConfig.prefixAdmin}/products`);
