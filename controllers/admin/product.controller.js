@@ -47,11 +47,16 @@ module.exports.index = async (req, res) => {
   // objectPanigation.totalPage = totalPage;
   // End Pagination
 
-
+  let sort = {};
+  if (req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue
+  } else {
+    sort.position = "desc"
+  }
 
   const products = await Product.find(find)
     // .sort({ position: "asc" })
-    .sort({ position: "desc" })
+    .sort(sort)
     .limit(objectPanigation.limitItems)
     .skip(objectPanigation.skip);
   // console.log(products)

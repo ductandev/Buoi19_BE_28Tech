@@ -4,7 +4,7 @@ const streamifier = require('streamifier')
 // =========== UPLOAD ẢNH CLOUDINARY ================
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
+    api_key: process.env.API_KEY_VERCEL,
     api_secret: process.env.API_SECRET
 });
 

@@ -8,8 +8,7 @@ block main
 
   //- Form submit gửi data lên với phương thức [POST]
   form(
-    action=`${prefixAdmin}/products/create`
-    id="form-create-product"
+    action=`${prefixAdmin}/products-category/create`
     method="POST"
     enctype="multipart/form-data"
   )
@@ -22,6 +21,16 @@ block main
         name="title"
         required
       )
+
+    div(class="form-group")
+      lable(for="title")  Danh mục cha
+      input(
+        type="text"
+        class="form-control"
+        id="parent_id"
+        name="parent_id"
+      )
+
     div(class="form-group")
       lable(for="desc")  Mô tả
       textarea(
@@ -30,36 +39,7 @@ block main
         name="description"
         row="5"
       )
-    div(class="form-group")
-      lable(for="price")  Giá
-      input(
-        type="number"
-        class="form-control"
-        id="price"
-        name="price"
-        value="0"
-        min="0"
-      )
-    div(class="form-group")
-      lable(for="discount")  % Giảm giá
-      input(
-        type="number"
-        class="form-control"
-        id="discount"
-        name="discountPercentage"
-        value="0"
-        min="0"
-      )
-    div(class="form-group")
-      lable(for="stock")  Số lượng
-      input(
-        type="number"
-        class="form-control"
-        id="stock"
-        name="stock"
-        value="0"
-        min="0"
-      )
+
 
     div(
       class="form-group" 
@@ -80,6 +60,7 @@ block main
         upload-image-preview
         class="image-preview"
       )
+
 
     div(class="form-group")
       lable(for="position")  Vị trí
