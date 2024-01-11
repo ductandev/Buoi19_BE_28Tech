@@ -1,8 +1,12 @@
 const Product = require("../../models/product.model.js")
+const ProductCategory = require("../../models/product-category.model.js")
 const systemConfig = require("../../config/system.js")
 
 const filterStatusHelper = require("../../helpers/filterStatus.js")
 const paginationHelper = require("../../helpers/pagination.js")
+const createTreeHelper = require("../../helpers/createTree.js")
+
+
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -134,8 +138,36 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
+  let find = {
+    deleted: false
+  }
+
+  // // ĐỆ QUY (RECURSION TREE)
+  // function createTree(arr, parentId = "") {
+  //     const tree = [];
+  //     arr.forEach((item) => {
+  //         // console.log("🚀 ~ file: product-category.controller.js:27 ~ arr.forEach ~ item:", item)
+  //         if (item.parent_id === parentId) {
+  //             // console.log("⭐⭐⭐⭐⭐ PASS")
+  //             const newItem = item;
+  //             const children = createTree(arr, item.id)       // khi bạn sử dụng "item.id" trong mã của bạn, Mongoose hiểu rằng bạn đang muốn truy cập trường _id và tự động chuyển đổi nó thành dạng chuỗi nếu cần thiết.
+  //             if (children.length > 0) {
+  //                 newItem.children = children;
+  //             }
+  //             tree.push(newItem);
+  //         }
+  //     });
+  //     return tree;
+  // }
+
+  const category = await ProductCategory.find(find)
+
+  // const newRecords = createTree(category)           // Đệ quy chưa tách file
+  const newCategory = createTreeHelper.tree(category)
+
   res.render("admin/pages/products/create.pug", {
-    pageTitle: "Thêm mới sản phẩm"
+    pageTitle: "Thêm mới sản phẩm",
+    category: newCategory
   });
 };
 
@@ -166,11 +198,16 @@ module.exports.edit = async (req, res) => {
 
     const product = await Product.findOne(find)
 
-    console.log(product)
+    const category = await ProductCategory.find({
+      deleted: false
+    })
+
+    const newCategory = createTreeHelper.tree(category)
 
     res.render("admin/pages/products/edit.pug", {
-      pageTitle: "Edit sản phẩm",
-      product: product
+      pageTitle: "Chỉnh sửa sản phẩm",
+      product: product,
+      category: newCategory
     });
   } catch (error) {
     res.redirect(`${systemConfig.prefixAdmin}/products`);
