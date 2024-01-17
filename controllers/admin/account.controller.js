@@ -57,40 +57,63 @@ module.exports.createPost = async (req, res) => {
     }
 }
 
-// // [GET] /admin/accounts/edit/:id
-// module.exports.edit = async (req, res) => {
-//     try {
-//         const data = await Account.findOne({
-//             _id: req.params.id,
-//             deleted: false
-//         })
+// [GET] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const data = await Account.findOne({
+            _id: req.params.id,
+            deleted: false
+        })
 
-//         res.render("admin/pages/accounts/edit.pug", {
-//             pageTitle: "Sửa nhóm quyền",
-//             data: data
-//         });
-//     } catch (error) {
-//         res.redirect(`${systemConfig.prefixAdmin}/accounts`)
-//     }
-// }
+        const roles = await Role.find({
+            deleted: false
+        })
 
-// // [PATCH] /admin/accounts/edit/:id
-// module.exports.editPatch = async (req, res) => {
-//     try {
-//         const data = await Account.updateOne({
-//             _id: req.params.id,
-//             deleted: false
-//         }, req.body)
+        res.render("admin/pages/accounts/edit.pug", {
+            pageTitle: "Chỉnh sửa tài khoản",
+            data: data,
+            roles: roles
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+    }
+}
 
-//         req.flash("success", "Cập nhật nhóm quyền thành công!")
-//         res.redirect(`back`)
+// [PATCH] /admin/accounts/edit/:id
+module.exports.editPatch = async (req, res) => {
+    try {
+        const emailExist = await Account.findOne({
+            _id: { $ne: req.params.id }, // $ne: là not equal nghĩa là chỉ lấy những thằng khác, không bằng nó
+            email: req.body.email,
+            deleted: false
+        })
 
-//     } catch (error) {
-//         req.flash("error", "Cập nhật nhóm quyền thất bại!")
-//         res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+        if (emailExist) {
+            req.flash("error", `Email ${req.body.email} đã tồn tại!`)
+        } else {
 
-//     }
-// }
+            if (req.body.password) {
+                req.body.password = md5(req.body.password);
+            } else {
+                delete req.body.password;
+            }
+
+            const data = await Account.updateOne({
+                _id: req.params.id,
+                deleted: false
+            }, req.body)
+
+            req.flash("success", "Cập nhật tài khoản thành công!")
+
+        }
+
+        res.redirect(`back`)
+
+    } catch (error) {
+        req.flash("error", "Cập nhật tài khoản thất bại!")
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+    }
+}
 
 
 // // [GET] /admin/accounts/permissions

@@ -16,17 +16,21 @@ router.get("/create", controller.create)
 router.post(
     "/create",
     upload.single('avatar'),
-    // ============== CLOUDINARY ============
     uploadCloud.upload,
-    // ====================================== 
+    validate.createPost,
     controller.createPost)
 
-// router.get("/edit/:id", controller.edit)
+router.get("/edit/:id", controller.edit)
 
-// router.patch("/edit/:id", controller.editPatch)
+router.patch(
+    "/edit/:id",
+    upload.single('avatar'),
+    uploadCloud.upload,
+    validate.editPatch,
+    controller.editPatch)
 
-// router.get("/permissions", controller.permissions)
 
-// router.patch("/permissions", controller.permissionPatch)
+
+
 
 module.exports = router;
