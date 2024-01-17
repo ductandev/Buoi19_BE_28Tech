@@ -9,7 +9,7 @@ router.get("/login", controller.login)
 
 router.post("/login", validate.loginPost, controller.loginPost)
 
-// router.post("/login", controller.createPost)
+router.get("/logout", controller.logout)
 
 // router.get("/edit/:id", controller.edit)
 
