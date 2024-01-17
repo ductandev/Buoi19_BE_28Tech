@@ -2,108 +2,109 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 
-block main 
-  +alert-error(5000)
+block main
+  if(role.permissions.includes("products-category_create"))
+    +alert-error(5000)
 
-  h1(class="mb-4") Thêm mới danh mục sản phẩm
+    h1(class="mb-4") Thêm mới danh mục sản phẩm
 
-  //- Form submit gửi data lên với phương thức [POST]
-  form(
-    action=`${prefixAdmin}/products-category/create`
-    method="POST"
-    enctype="multipart/form-data"
-  )
-    div(class="form-group")
-      lable(for="title")  Tiêu đề
-      input(
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        required
-      )
-
-    div(class="form-group")
-      lable(for="parent_id")  Danh mục cha
-      select(
-        name="parent_id"
-        id="parent_id"
-        class="form-control"
-      )
-        option(value="") -- Chọn danh mục cha --
-        if(records)
-          +select-tree(records)
-
-    div(class="form-group")
-      lable(for="desc")  Mô tả
-      textarea(
-        class="form-control textarea-mce"
-        id="desc"
-        name="description"
-        row="5"
-      )
-
-
-    div(
-      class="form-group" 
-      upload-image
+    //- Form submit gửi data lên với phương thức [POST]
+    form(
+      action=`${prefixAdmin}/products-category/create`
+      method="POST"
+      enctype="multipart/form-data"
     )
-      lable(for="thumbnail")  Ảnh
-      <br>
-      input(
-        type="file"
-        class="form-control-file"
-        id="thumbnail"
-        name="thumbnail"
-        accept="image/*"
-        upload-image-input
+      div(class="form-group")
+        lable(for="title")  Tiêu đề
+        input(
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          required
+        )
+
+      div(class="form-group")
+        lable(for="parent_id")  Danh mục cha
+        select(
+          name="parent_id"
+          id="parent_id"
+          class="form-control"
+        )
+          option(value="") -- Chọn danh mục cha --
+          if(records)
+            +select-tree(records)
+
+      div(class="form-group")
+        lable(for="desc")  Mô tả
+        textarea(
+          class="form-control textarea-mce"
+          id="desc"
+          name="description"
+          row="5"
+        )
+
+
+      div(
+        class="form-group" 
+        upload-image
       )
-      img(
-        src=""
-        upload-image-preview
-        class="image-preview"
-      )
+        lable(for="thumbnail")  Ảnh
+        <br>
+        input(
+          type="file"
+          class="form-control-file"
+          id="thumbnail"
+          name="thumbnail"
+          accept="image/*"
+          upload-image-input
+        )
+        img(
+          src=""
+          upload-image-preview
+          class="image-preview"
+        )
 
 
-    div(class="form-group")
-      lable(for="position")  Vị trí
-      input(
-        type="number"
-        class="form-control"
-        id="position"
-        name="position"
-        palaceholder="Tự động tăng"
-        min="1"
-      )
+      div(class="form-group")
+        lable(for="position")  Vị trí
+        input(
+          type="number"
+          class="form-control"
+          id="position"
+          name="position"
+          palaceholder="Tự động tăng"
+          min="1"
+        )
 
 
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="statusActive"
-        name="status"
-        value="active"
-        checked
-      )
-      label(for="statusActive" class="form-check-label") Hoạt động
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="statusActive"
+          name="status"
+          value="active"
+          checked
+        )
+        label(for="statusActive" class="form-check-label") Hoạt động
 
 
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="statusInActive"
-        name="status"
-        value="inactive"
-      )
-      label(for="statusInActive" class="form-check-label") Dừng hoạt động
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="statusInActive"
+          name="status"
+          value="inactive"
+        )
+        label(for="statusInActive" class="form-check-label") Dừng hoạt động
 
 
-    div(class="form-group")
-      button(
-        type="submit"
-        class="btn btn-primary"
-      ) Tạo mới
+      div(class="form-group")
+        button(
+          type="submit"
+          class="btn btn-primary"
+        ) Tạo mới
 
-  script(src="/admin/js/product.js")
+    script(src="/admin/js/product.js")
