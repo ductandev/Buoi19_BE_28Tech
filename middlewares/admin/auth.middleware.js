@@ -16,8 +16,8 @@ module.exports.requireAuth = async (req, res, next) => {
                 _id: user.role_id
             }).select("title permissions")
 
-            res.locals.user = user;
-            res.locals.role = role;
+            res.locals.user = user;         // Biến toàn cục
+            res.locals.role = role;         // Biến toàn cục
             next();
         }
     }

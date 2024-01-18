@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash')
+const moment = require('moment')
 const pug = require('pug');
 const multer = require('multer')
 require("dotenv").config();
@@ -40,8 +41,9 @@ app.use(flash());
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 // End TinyMCE
 
-// App Locals Variables (dùng sửa biến nếu đổi enponit /admin/) => cách làm làm cho biến prefixAdmin tồn tại được trong tất cả các file pug để lấy sử dụng nó
+//⭐App Locals Variables (dùng sửa biến nếu đổi enponit /admin/) => cách làm làm cho biến prefixAdmin tồn tại được trong tất cả các file pug để lấy sử dụng nó
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
 // bất kỳ tệp tĩnh nào (như hình ảnh, stylesheet, JavaScript, vv.) trong thư mục "public" sẽ có thể được truy cập qua đường dẫn URL của ứng dụng.
 // app.use(): là một middleware thực hiện các tác vụ trung gian trước khi xử lý yêu cầu từ người dùng, đến các tuyến đường (routes) khác.

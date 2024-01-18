@@ -22,6 +22,13 @@ const productSchema = new mongoose.Schema(
       slug: "title",       // Sản phẩm 1
       unique: true
     },
+    createBy: {
+      account_id: String,
+      createAt: {
+        type: Date,
+        default: Date.now
+      }
+    },
     deleted: {
       type: Boolean,
       default: false      // Mặc định trường  "deleted: false" để hiện sản phẩm

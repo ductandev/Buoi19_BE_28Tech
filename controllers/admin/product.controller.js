@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model.js")
 const ProductCategory = require("../../models/product-category.model.js")
+const Account = require("../../models/account.model.js")
 const systemConfig = require("../../config/system.js")
 
 const filterStatusHelper = require("../../helpers/filterStatus.js")
@@ -51,12 +52,14 @@ module.exports.index = async (req, res) => {
   // objectPanigation.totalPage = totalPage;
   // End Pagination
 
+  // sort
   let sort = {};
   if (req.query.sortKey && req.query.sortValue) {
     sort[req.query.sortKey] = req.query.sortValue
   } else {
     sort.position = "desc"
   }
+  // end sort
 
   const products = await Product.find(find)
     // .sort({ position: "asc" })
@@ -64,6 +67,17 @@ module.exports.index = async (req, res) => {
     .limit(objectPanigation.limitItems)
     .skip(objectPanigation.skip);
   // console.log(products)
+
+
+  for (const product of products) {
+    const user = await Account.findOne({
+      _id: product.createBy.account_id
+    });
+
+    if (user) {
+      product.accountFullName = user.fullName;
+    }
+  }
 
 
   res.render("admin/pages/products/index.pug", {
@@ -183,6 +197,11 @@ module.exports.createPost = async (req, res) => {
   // if (req.file) {
   //   req.body.thumbnail = `/uploads/${req.file.filename}`
   // }
+
+  req.body.createBy = {
+    account_id: res.locals.user.id
+  }
+
   const product = await Product.create(req.body)
 
   res.redirect(`${systemConfig.prefixAdmin}/products`);
