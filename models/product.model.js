@@ -33,7 +33,12 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false      // Mặc định trường  "deleted: false" để hiện sản phẩm
     },
-    deletedAt: Date
+    // deletedAt: Date,
+    deleteBy: {
+      account_id: String,
+      deleteAt: Date
+    }
+
   }, {
   timestamps: true
 }
