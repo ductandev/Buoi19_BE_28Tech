@@ -73,6 +73,17 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/products-category/create
 module.exports.createPost = async (req, res) => {
+  //⭐Cách chặn người dùng phá từ postman, Phải kiểm tra quyền mới cho gọi API
+  // const permissions = res.locals.role.permissions;
+
+  // if (permissions.includes("products-category_create")) {
+  //   console.log("Có quyền")
+  // } else {
+  //   res.send("403")
+  //   return;
+  // }
+
+
   if (req.body.position == "") {
     const count = await ProductCategory.countDocuments();
     req.body.position = +count + 1
@@ -80,9 +91,9 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position)
   }
 
-  // // if (req.file) {
-  // //   req.body.thumbnail = `/uploads/${req.file.filename}`
-  // // }
+  // if (req.file) {
+  //   req.body.thumbnail = `/uploads/${req.file.filename}`
+  // }
   const records = await ProductCategory.create(req.body)
 
   res.redirect(`${systemConfig.prefixAdmin}/products-category`);
