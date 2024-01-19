@@ -11,12 +11,6 @@ router.post("/login", validate.loginPost, controller.loginPost)
 
 router.get("/logout", controller.logout)
 
-// router.get("/edit/:id", controller.edit)
 
-// router.patch("/edit/:id", controller.editPatch)
-
-// router.get("/permissions", controller.permissions)
-
-// router.patch("/permissions", controller.permissionPatch)
 
 module.exports = router;
