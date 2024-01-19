@@ -253,15 +253,11 @@ module.exports.create = async (req, res) => {
 // [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
   if (req.body.position == "") {
-    const countProduct = await Product.countDocuments();
-    req.body.position = +countProduct + 1
+    const countProducts = await Product.countDocuments();
+    req.body.position = +countProducts + 1
   } else {
     req.body.position = parseInt(req.body.position)
   }
-
-  // if (req.file) {
-  //   req.body.thumbnail = `/uploads/${req.file.filename}`
-  // }
 
   req.body.createBy = {
     account_id: res.locals.user.id
@@ -310,16 +306,14 @@ module.exports.editPatch = async (req, res) => {
       updatedAt: new Date()
     }
 
-    req.body.updatedBy = updatedBy;
-
-    const product = await Product.updateOne(
-      { _id: req.params.id }, {
+    const product = await Product.updateOne({ _id: req.params.id }, {
       ...req.body,
       $push: { updatedBy: updatedBy }   // $push: Để lưu lại 1 mãng các object người dùng đã chỉnh sửa hoặc cập nhật
     }
     );
     req.flash("success", `Cập nhật thành công !`)
   } catch (error) {
+    console.log("🚀 ~ module.exports.editPatch= ~ error:", error)
     req.flash("error", `Cập nhật thất bại !`)
   }
   res.redirect(`back`);
