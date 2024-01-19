@@ -12,8 +12,6 @@ module.exports.index = async (req, res) => {
 		return item;
 	})
 
-	console.log(products)
-
 	res.render("client/pages/products/index.pug", {
 		pageTitle: "Danh sách sản phẩm",
 		products: newProducts
@@ -30,7 +28,6 @@ module.exports.detail = async (req, res) => {
 		};
 
 		const product = await Product.findOne(find)
-		console.log(product)
 
 		res.render("client/pages/products/detail.pug", {
 			pageTitle: product.title,
