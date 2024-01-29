@@ -5,6 +5,7 @@ const homeRouters = require("./home.route.js")
 const productRouter = require("./product.route.js")
 const searchRouter = require("./search.route.js")
 const carthRouter = require("./cart.route.js")
+const checkoutRouter = require("./checkout.route.js")
 
 module.exports = (app) => {
     app.use(categoryMiddleware.category)    // Sử dụng middleware này cho tất cả các router để nó luôn chạy
@@ -16,5 +17,6 @@ module.exports = (app) => {
     app.use("/products", productRouter)
     app.use("/search", searchRouter)
     app.use("/cart", carthRouter)
+    app.use("/checkout", checkoutRouter)
 
 }
