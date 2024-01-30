@@ -4,33 +4,38 @@ const productsHelper = require("../../helpers/product.js")
 
 // [GET] /cart
 module.exports.index = async (req, res) => {
-  const cartId = req.cookies.cartId;
+  try {
+    const cartId = req.cookies.cartId;
 
-  const cart = await Cart.findOne({
-    _id: cartId
-  });
+    const cart = await Cart.findOne({
+      _id: cartId
+    });
 
-  if (cart.products.length > 0) {
-    for (const item of cart.products) {
-      const productId = item.product_id
+    if (cart.products.length > 0) {
+      for (const item of cart.products) {
+        const productId = item.product_id
 
-      const productInfo = await Product.findOne({
-        _id: productId
-      })
+        const productInfo = await Product.findOne({
+          _id: productId
+        })
 
-      productInfo.priceNew = productsHelper.priceNewProduct(productInfo)
+        productInfo.priceNew = productsHelper.priceNewProduct(productInfo)
 
-      item.productInfo = productInfo
-      item.totalPrice = item.quantity * productInfo.priceNew
+        item.productInfo = productInfo
+        item.totalPrice = item.quantity * productInfo.priceNew
+      }
     }
+
+    cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice, 0)
+
+    res.render("client/pages/cart/index.pug", {
+      pageTitle: "Giỏ hàng",
+      cartDetail: cart
+    });
+
+  } catch (error) {
+    console.log("🚀 ~ module.exports.index= ~ error:", error)
   }
-
-  cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice, 0)
-
-  res.render("client/pages/cart/index.pug", {
-    pageTitle: "Giỏ hàng",
-    cartDetail: cart
-  });
 }
 
 
